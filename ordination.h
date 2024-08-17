@@ -8,4 +8,8 @@ void insertionSort(int *vetor, int n, unsigned long *comparacoes, unsigned long 
 void mergeSort(int *vet, int, int n,unsigned long *trocas, unsigned long *comparacoes);
 void quickSort(int *vet, int, int n,unsigned long *trocas, unsigned long *comparacoes);
 
+//++++++++++++++++++++++++++++++++++MODIFICADOS+++++++++++++++++++++++++++++++++
+void bubblesortM(int *vet, int n, unsigned long *trocas, unsigned long *comparacoes);
+void selectionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas);
+
 #endif

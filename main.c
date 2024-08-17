@@ -6,7 +6,7 @@
 
 //  # 1º Escolher dois algoritmos de ordenação entre os algoritmos abaixo
 
-//         (BubbleSort, MergeSort,InsertSort, SelectionSort, QuickSort)
+//         (BubbleSort, MergeSort,InsertSort, insertionSort, QuickSort)
 
 //       Após isso, perguntar a algum modelo de LM (CHATGPT LLHAMA, COPILOT, BING)
 //     como tornar tal algoritmo mais eficiente, em seguinda testá-los e fazer uma 
@@ -24,15 +24,10 @@
 
 int main() {
 
-    executar_teste(10, bubblesort, selectionSort, "bubbleSort", "selectionSort");
-    executar_teste(100, bubblesort, selectionSort, "bubbleSort", "selectionSort");
-    executar_teste(1000, bubblesort, selectionSort, "bubbleSort", "selectionSort");
-    executar_teste(10000, bubblesort, selectionSort, "bubbleSort", "selectionSort");
+    executar_teste(100, mergeSort, mergeSortM, "bubbleSort", "mergeSort");
+    executar_teste(10, mergeSort, mergeSortM, "bubbleSort", "mergeSort");
+    executar_teste(100, mergeSort, mergeSortM, "bubbleSort", "mergeSort");
 
-    executar_teste(10, bubblesort, insertionSort, "bubbleSort", "insertionSort");
-    executar_teste(100, bubblesort, insertionSort, "bubbleSort", "insertionSort");
-    executar_teste(1000, bubblesort, insertionSort, "bubbleSort", "insertionSort");
-    executar_teste(10000, bubblesort, insertionSort, "bubbleSort", "insertionSort");
 
     return 0;
 }

@@ -2,17 +2,6 @@
 #include "style.h"
 #include <stdio.h>
 
-void printAnimation(const char *send, int time, Style style) {
-    printf("%s%s", style.color, style.fontStyle);
-    while (*send) {
-        putchar(*send++);
-        fflush(stdout);
-        Sleep(time);
-    }
-    printf(RESET);
-    putchar('\n');
-}
-
 void boxLoadingAnimation(int duration) {
     const char *frames[] = {
         "[    ]",

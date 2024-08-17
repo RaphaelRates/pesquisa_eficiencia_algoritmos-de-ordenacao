@@ -33,12 +33,6 @@
 #define BRIGHT_WHITE_BG "\x1b[107m" 
 #define GREEN           "\x1b[32m"
 
-typedef struct {
-    char color[10];
-    char fontStyle[10];
-} Style;
-
-void printAnimation(const char *send, int time, Style style);
 void boxLoadingAnimation(int duration);
 
 #endif

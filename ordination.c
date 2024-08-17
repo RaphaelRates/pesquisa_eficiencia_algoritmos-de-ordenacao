@@ -154,3 +154,110 @@ void quickSort(int *vet, int inicio, int fim, int unsigned long *comparacoes, un
         quickSort(vet, pivo+1, fim, trocas, comparacoes);
     }
 }
+
+
+//+++++++++++++++++++++++++++++++++++++++++ ALGORITMOS MODIFICADOS ++++++++++++++++++++++++++++++++++++++++++++
+void bubblesortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas) {
+    int i, mudou, fim, nova_fim;
+    fim = n - 1;
+    *comparacoes = 0;
+    *trocas = 0;
+
+    // Flag para verificar se houve mudança
+    int ja_ordenado = 0;
+
+    while (!ja_ordenado) {
+        mudou = 0;
+        nova_fim = 0;
+        ja_ordenado = 1; // Assume que o vetor está ordenado no início
+
+        for (i = 0; i < fim; i++) {
+            (*comparacoes)++;
+            if (vet[i] > vet[i + 1]) {
+                swap(&vet[i], &vet[i + 1]);
+                mudou = 1;
+                nova_fim = i; // Atualiza a posição da última troca
+                (*trocas)++;
+                ja_ordenado = 0;
+            }
+        }
+        fim = nova_fim; 
+    }
+}
+
+void selectionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas) {
+    int i, j, menor;
+    *comparacoes = 0;
+    *trocas = 0;
+
+    for (i = 0; i < n - 1; i++) {
+        menor = i;
+        for (j = i + 1; j < n; j++) {
+            (*comparacoes)++;
+            if (vet[j] < vet[menor]) {
+                menor = j;
+            }
+        }
+        if (i != menor) {
+            // Troca apenas se necessário
+            swap(&vet[i], &vet[menor]);
+            (*trocas)++;
+        }
+    }
+}
+void insertionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas) {
+    int i, j, aux;
+    *comparacoes = 0;
+    *trocas = 0;
+    for(i = 1; i < n; i++) {
+        aux = vet[i];
+        j = i;
+        while(j > 0) {
+            (*comparacoes)++;
+            if(aux < vet[j - 1]) {
+                vet[j] = vet[j - 1];
+                j--;
+                (*trocas)++;
+            } else {
+                break; 
+            }
+        }
+        vet[j] = aux;
+    }
+}
+
+
+void mergeM(int* vet, int inicio, int meio, int fim, unsigned long *comparacoes, unsigned long *trocas) {
+    int tamanho = fim - inicio + 1;
+    int *temp = (int*) malloc(tamanho * sizeof(int));
+    if (temp == NULL) {
+        fprintf(stderr, "Erro de alocação de memória.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int p1 = inicio, p2 = meio + 1;
+    for (int i = 0; i < tamanho; i++) {
+        if (p1 <= meio && (p2 > fim || vet[p1] <= vet[p2])) {
+            temp[i] = vet[p1++];
+        } else {
+            temp[i] = vet[p2++];
+        }
+        (*comparacoes)++;
+        (*trocas)++;
+    }
+
+    for (int j = 0; j < tamanho; j++) {
+        vet[inicio + j] = temp[j];
+    }
+
+    free(temp);
+}
+
+void mergeSortM(int *vet, int inicio, int fim, unsigned long *comparacoes, unsigned long *trocas) {
+    if (inicio < fim) {
+        int meio = (inicio + fim) / 2;
+        mergeSortM(vet, inicio, meio, comparacoes, trocas);
+        mergeSortM(vet, meio + 1, fim, comparacoes, trocas);
+        mergeM(vet, inicio, meio, fim, comparacoes, trocas);
+    }
+}
