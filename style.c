@@ -1,5 +1,6 @@
 
 #include "style.h"
+#include <stdio.h>
 
 void printAnimation(const char *send, int time, Style style) {
     printf("%s%s", style.color, style.fontStyle);

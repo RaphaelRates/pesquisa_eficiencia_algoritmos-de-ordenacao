@@ -25,4 +25,5 @@ typedef struct {
     unsigned long int trocas;
     BOOL recursive;
 } ArgsRecursive;
+
 #endif
