@@ -15,6 +15,7 @@ typedef struct {
     unsigned long int comparacoes;
     unsigned long int trocas;
     BOOL recursive;
+    int loop;
 } ArgsIteratctive;
 
 typedef struct {
@@ -24,6 +25,7 @@ typedef struct {
     unsigned long int comparacoes;
     unsigned long int trocas;
     BOOL recursive;
+    int loop;
 } ArgsRecursive;
 
 #endif

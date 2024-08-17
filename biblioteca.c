@@ -50,32 +50,40 @@ DWORD WINAPI testar_algoritmo(LPVOID args) {
     fim = clock();
 
     argumentos->duracao = (fim - inicio) * 1000 / CLOCKS_PER_SEC;
-    printf(NEGRITO YELLOW"EXECUTADO"RESET" em "GREEN"%lu"RESET" ms, com "GREEN"%lu "RESET"comparacoes e "GREEN"%lu "RESET"trocas.\n", 
-           argumentos->duracao, argumentos->comparacoes, argumentos->trocas);
+    printf(NEGRITO YELLOW"EXECUTANDO"RESET" loop %d em "GREEN"%lu"RESET" ms, com "GREEN"%lu "RESET"comparacoes e "GREEN"%lu "RESET"trocas.\n", 
+           argumentos->loop, argumentos->duracao, argumentos->comparacoes, argumentos->trocas);
 
     free(vetor);
     return 0;
 }
 
-void executar_teste(int tamanho, void (*func1)(int*, int, unsigned long*, unsigned long*), void (*func2)(int*, int, unsigned long*, unsigned long*),const char* nome_func1,const char* nome_func2) {
+
+void executar_teste(int tamanho, void (*func1)(int*, int, unsigned long*, unsigned long*), void (*func2)(int*, int, unsigned long*, unsigned long*), const char* nome_func1, const char* nome_func2) {
     ArgsIteratctive args, args2;
     args.func = func1;
     args2.func = func2;
     args.n = tamanho;
     args2.n = tamanho;
+    args.loop = 0;
+    args2.loop = 0;
 
-    unsigned long int total_duracao_original = 0,total_duracao_modificado = 0, min_duracao = ULONG_MAX, max_duracao = 0;
-    unsigned long int total_comparacoes_original = 0,total_comparacoes_modificado = 0,total_trocas_original = 0, total_trocas_modificado = 0;
+    unsigned long int total_duracao_original = 0, total_duracao_modificado = 0;
+    unsigned long int min_duracao = ULONG_MAX, max_duracao = 0;
+    unsigned long int total_comparacoes_original = 0, total_comparacoes_modificado = 0;
+    unsigned long int total_trocas_original = 0, total_trocas_modificado = 0;
 
     for (int i = 0; i < 10; i++) {
+        args.loop++;
+        args2.loop++;
 
         HANDLE thread = CreateThread(NULL, 0, testar_algoritmo, &args, 0, NULL);
         HANDLE thread2 = CreateThread(NULL, 0, testar_algoritmo, &args2, 0, NULL);
+        
         WaitForSingleObject(thread, INFINITE);
         WaitForSingleObject(thread2, INFINITE);
+        
         CloseHandle(thread);
         CloseHandle(thread2);
-        
 
         total_duracao_original += args.duracao;
         total_comparacoes_original += args.comparacoes;
@@ -84,18 +92,17 @@ void executar_teste(int tamanho, void (*func1)(int*, int, unsigned long*, unsign
         total_duracao_modificado += args2.duracao;
         total_comparacoes_modificado += args2.comparacoes;
         total_trocas_modificado += args2.trocas;
-        
 
         if (args.duracao < min_duracao) min_duracao = args.duracao;
         if (args.duracao > max_duracao) max_duracao = args.duracao;
     }
-    printf("\n"NEGRITO"RESULTADO DE TESTE DOS ALGORITMO "MAGENTA ITALIC"%s"RESET NEGRITO" E "MAGENTA ITALIC"%s"RESET NEGRITO" DE "GREEN"%d "RESET NEGRITO"ELEMENTOS\n",nome_func1,nome_func2, tamanho);
-    
+
+    printf("\n"NEGRITO"RESULTADO DE TESTE DOS ALGORITMO "MAGENTA ITALIC"%s"RESET NEGRITO" E "MAGENTA ITALIC"%s"RESET NEGRITO" DE "GREEN"%d "RESET NEGRITO"ELEMENTOS\n", nome_func1, nome_func2, tamanho);
     printf("|"CYAN"---------------------------------------------------------------------------------------------------------------------"RESET"|");
-    printf("\n| "CYAN ITALIC"ALGORITMO"RESET"  |"CYAN ITALIC"TAMANHO DO VETOR"RESET"  |  "CYAN ITALIC"MEDIA DO TEMPO"RESET"  |  "CYAN ITALIC"DIFERENCA DE TEMPO"RESET"  | "CYAN ITALIC" MEDIA DE COMPARACAO "RESET" |  "CYAN ITALIC"MEDIA DE TROCAS"RESET"  |\n");
+    printf("\n| "CYAN ITALIC"ALGORITMO"RESET"  |"CYAN ITALIC"TAMANHO DO VETOR"RESET"  |  "CYAN ITALIC"MEDIA DO TEMPO"RESET"  |  "CYAN ITALIC"DIFERENCA DE TEMPO"RESET"  | "CYAN ITALIC"MEDIA DE COMPARACAO"RESET" |  "CYAN ITALIC"MEDIA DE TROCAS"RESET"  |\n");
     printf("|"CYAN"---------------------------------------------------------------------------------------------------------------------"RESET"|\n");
-    printf("| original   |     "GREEN NEGRITO"%d"RESET"        |       "GREEN NEGRITO"%lu"RESET"         |          "GREEN NEGRITO"%lu"RESET"         |        "GREEN NEGRITO"%lu"RESET"       |      "GREEN NEGRITO"%lu"RESET"      |\n", tamanho,total_duracao_original / 10, max_duracao - min_duracao, total_comparacoes_original / 10, total_trocas_original / 10);
+    printf("| original   |     "GREEN NEGRITO"%d"RESET"        |       "GREEN NEGRITO"%lu"RESET"         |          "GREEN NEGRITO"%lu"RESET"         |        "GREEN NEGRITO"%lu"RESET"       |      "GREEN NEGRITO"%lu"RESET"      |\n", tamanho, total_duracao_original / 10, max_duracao - min_duracao, total_comparacoes_original / 10, total_trocas_original / 10);
     printf("|"CYAN"----------------------------------------------------------------------------------------------------------------------------"RESET"|\n");
-    printf("| modificada |     "GREEN NEGRITO"%d"RESET"        |       "GREEN NEGRITO"%lu"RESET"         |          "GREEN NEGRITO"%lu"RESET"         |        "GREEN NEGRITO"%lu"RESET"       |      "GREEN NEGRITO"%lu"RESET"      |\n", tamanho,total_duracao_modificado / 10, max_duracao - min_duracao, total_comparacoes_modificado / 10, total_trocas_modificado / 10);
+    printf("| modificada |     "GREEN NEGRITO"%d"RESET"        |       "GREEN NEGRITO"%lu"RESET"         |          "GREEN NEGRITO"%lu"RESET"         |        "GREEN NEGRITO"%lu"RESET"       |      "GREEN NEGRITO"%lu"RESET"      |\n", tamanho, total_duracao_modificado / 10, max_duracao - min_duracao, total_comparacoes_modificado / 10, total_trocas_modificado / 10);
     printf("|"CYAN"---------------------------------------------------------------------------------------------------------------------"RESET"|\n\n\n");
 }
