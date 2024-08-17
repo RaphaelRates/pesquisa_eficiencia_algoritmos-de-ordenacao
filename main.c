@@ -1,3 +1,4 @@
+
 // ============================= MISSÂO DESSE PROJETO =============================
 
 //  Medir o quão eficiente é uma variasão em relação a implementações originais de
@@ -17,36 +18,21 @@
 //    Depois faz uma analise empirica, implementando um gerador de inteiros aleatorias
 //    podendo retornar um vetor de tamanho N (10,100,1.000,10.000)
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <windows.h> 
 #include "biblioteca.c"
+#include "ordination.h"
+#include "ordination.c"
 
-int main(){
+int main() {
 
-    ArgsBubble args = {insertionSort, 1000,0, FALSE};
-    ArgsBubble args2 = {insertionSort, 1000,0, FALSE};
+    executar_teste(10, bubblesort, selectionSort, "bubbleSort", "selectionSort");
+    executar_teste(100, bubblesort, selectionSort, "bubbleSort", "selectionSort");
+    executar_teste(1000, bubblesort, selectionSort, "bubbleSort", "selectionSort");
+    executar_teste(10000, bubblesort, selectionSort, "bubbleSort", "selectionSort");
 
-    HANDLE thread = CreateThread(NULL,0,testar_algoritmo,&args,0,NULL);
-    HANDLE thread2 = CreateThread(NULL,0,testar_algoritmo,&args2,0,NULL);
-
-    WaitForSingleObject(thread, INFINITE);
-    WaitForSingleObject(thread2, INFINITE);
-
-    CloseHandle(thread);
-    CloseHandle(thread2);
-
-    if (args2.duracao < args.duracao) {
-        printf("A thread da funcao modificada terminou mais cedo (%lu ms vs %lu ms).\n", args2.duracao, args.duracao);
-    } else if (args2.duracao > args.duracao) {
-        printf("A thread da funcao original terminou mais cedo (%lu ms vs %lu ms).\n", args.duracao, args2.duracao);
-    } else {
-        printf("As threads terminaram no mesmo tempo (%lu ms).\n", args.duracao);
-    }
-
-
-
+    executar_teste(10, bubblesort, insertionSort, "bubbleSort", "insertionSort");
+    executar_teste(100, bubblesort, insertionSort, "bubbleSort", "insertionSort");
+    executar_teste(1000, bubblesort, insertionSort, "bubbleSort", "insertionSort");
+    executar_teste(10000, bubblesort, insertionSort, "bubbleSort", "insertionSort");
 
     return 0;
 }

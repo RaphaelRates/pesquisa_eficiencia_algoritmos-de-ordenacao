@@ -3,11 +3,26 @@
 
 void alocar_vetor(int **vetor, int n);
 void percorrer_vetor(int *vetor,int n);
-void imprimir_vetor(int *vetor, int n, int min, int max);
-void bubblesort(int *, int);
-void selectionSort(int *, int);
-void insertionSort(int *, int);
-void mergeSort(int *, int, int);
-void quickSort(int *, int, int);
+void imprimir_vetor(const int *vetor, int n);
 
+#include <windows.h>
+//================================== STRUCTURES ===================================
+
+typedef struct {
+    void (*func)(int *, int, unsigned long *, unsigned long *);
+    int n;
+    unsigned long int duracao;
+    unsigned long int comparacoes;
+    unsigned long int trocas;
+    BOOL recursive;
+} ArgsIteratctive;
+
+typedef struct {
+    void (*func)(int *, int, int, unsigned long *, unsigned long *);
+    int n;
+    unsigned long int duracao;
+    unsigned long int comparacoes;
+    unsigned long int trocas;
+    BOOL recursive;
+} ArgsRecursive;
 #endif

@@ -33,9 +33,6 @@
 #define BRIGHT_WHITE_BG "\x1b[107m" 
 #define GREEN           "\x1b[32m"
 
-#include <stdio.h>
-#include <windows.h>
-
 typedef struct {
     char color[10];
     char fontStyle[10];
