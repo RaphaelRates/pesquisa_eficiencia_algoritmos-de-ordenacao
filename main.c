@@ -24,9 +24,8 @@
 
 int main() {
 
-    executar_teste(100, mergeSort, mergeSortM, "bubbleSort", "mergeSort");
-    executar_teste(10, mergeSort, mergeSortM, "bubbleSort", "mergeSort");
-    executar_teste(100, mergeSort, mergeSortM, "bubbleSort", "mergeSort");
+    boxLoadingAnimation(100);
+    executar_teste(9000, bubblesort, bubblesortM, "bubblesort", "bubblesortModificado");
 
 
     return 0;

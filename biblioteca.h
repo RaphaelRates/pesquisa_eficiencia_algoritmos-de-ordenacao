@@ -14,8 +14,10 @@ typedef struct {
     unsigned long int duracao;
     unsigned long int comparacoes;
     unsigned long int trocas;
+    int max;
+    int min;
     BOOL recursive;
-    int loop;
+    int vetor;
 } ArgsIteratctive;
 
 typedef struct {
@@ -24,8 +26,10 @@ typedef struct {
     unsigned long int duracao;
     unsigned long int comparacoes;
     unsigned long int trocas;
+    int max;
+    int min;
     BOOL recursive;
-    int loop;
+    int vetor;
 } ArgsRecursive;
 
 #endif
