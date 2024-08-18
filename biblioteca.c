@@ -54,7 +54,8 @@ DWORD WINAPI testar_algoritmo(LPVOID args) {
     argumentos->duracao = duracao;
 
     printf(NEGRITO RED "EXECUTANDO" RESET " | vetor %d | " CYAN "%lu" RESET " ms | " CYAN "%lu " RESET "comparacoes | " CYAN "%lu " RESET "trocas.\n", (argumentos->vetor), argumentos->duracao, argumentos->comparacoes, argumentos->trocas);
-    printf(YELLOW NEGRITO "\n==============================================================" RESET);
+    printf(YELLOW NEGRITO "==============================================================" RESET);
+    // imprimir_vetor(vetor, argumentos->n);
     printf("\n");
 
     free(vetor);
