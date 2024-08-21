@@ -111,12 +111,12 @@ void merge(int* vet, int inicio, int meio, int fim,unsigned long *comparacoes, u
 
 //=======================================  MERGE SORT =======================================  
 void mergeSort(int *vet, int inicio, int fim, unsigned long *comparacoes, unsigned long *trocas){
-    int meio;
+        int meio;
     if(inicio < fim){
         meio = (inicio + fim)/2;
-        mergeSort(vet, inicio, meio, trocas, comparacoes);
-        mergeSort(vet, meio+1, fim, trocas, comparacoes);
-        merge(vet, inicio, meio, fim, trocas, comparacoes);
+        mergeSort(vet, inicio, meio, comparacoes, trocas);
+        mergeSort(vet, meio+1, fim, comparacoes, trocas);   
+        merge(vet, inicio, meio, fim, comparacoes, trocas);
     }
 }
 
@@ -158,25 +158,22 @@ void quickSort(int *vet, int inicio, int fim, int unsigned long *comparacoes, un
 
 //+++++++++++++++++++++++++++++++++++++++++ ALGORITMOS MODIFICADOS ++++++++++++++++++++++++++++++++++++++++++++
 void bubblesortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas) {
-    int i, fim = n - 1;
-    int ultimaTroca = n - 1; 
-    *trocas = 0;
-    *comparacoes = 0;
-    while (fim > 0) {
-        int mudou = 0;
-        int novoFim = 0;
+    int i, mudou, fim = n - 1;
+    *trocas = 0;*comparacoes = 0;
+    do {
+        mudou = 0;
+        int novo_fim = 0; 
         for (i = 0; i < fim; i++) {
             (*comparacoes)++;
             if (vet[i] > vet[i + 1]) {
                 swap(&vet[i], &vet[i + 1]);
                 mudou = 1;
+                novo_fim = i; 
                 (*trocas)++;
-                novoFim = i; 
             }
         }
-        if (!mudou) {
-            break;
-        }
-        fim = novoFim; 
-    }
+        fim = novo_fim;  
+    } while (mudou);
 }
+
+

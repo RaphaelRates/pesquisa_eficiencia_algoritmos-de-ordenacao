@@ -28,7 +28,7 @@ void boxLoadingAnimation(int duration) {
     while (duration*10 > 0) {
         printf("\r%s", frames[i]);
         fflush(stdout);
-        Sleep(40);
+        Sleep(30);
         i = (i + 1) % 17;
         duration--;
     }

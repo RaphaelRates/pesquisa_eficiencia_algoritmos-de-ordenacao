@@ -16,7 +16,6 @@ typedef struct {
     unsigned long int trocas;
     int max;
     int min;
-    BOOL recursive;
     int vetor;
 } ArgsIteratctive;
 
@@ -28,7 +27,6 @@ typedef struct {
     unsigned long int trocas;
     int max;
     int min;
-    BOOL recursive;
     int vetor;
 } ArgsRecursive;
 

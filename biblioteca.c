@@ -6,6 +6,34 @@
 #include "ordination.h"
 #include "style.h"
 
+//================================== VERRIFICAR FUNÇÃO ==========================
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef void (* iteractive)(int*, int,  unsigned long*, unsigned long*);
+typedef void (* recursive)(int*, int, int, unsigned long*, unsigned long*);
+
+void exemploFunc1(int *a, int b, unsigned long *c, unsigned long *d) {
+    // Função de exemplo que corresponde ao tipo func1
+}
+
+void exemploFunc2(float *a, double b, unsigned long *c) {
+    // Função de exemplo que corresponde ao tipo func2
+}
+
+bool is_func1_or_func2_type(void *func) {
+    iteractive casted_func1 = (iteractive)func;
+    if (casted_func1 != NULL) {
+        return true;
+    }
+    recursive casted_func2 = (recursive)func;
+    if (casted_func2 != NULL) {
+        return true;
+    }
+
+    return false;
+}
+
 //================================== VETORES ===================================
 void alocar_vetor(int **vetor, int n) {
     if (n > 0) {
@@ -62,13 +90,15 @@ DWORD WINAPI testar_algoritmo(LPVOID args) {
     return 0;
 }
 
-void executar_teste(int tamanho, void (*func1)(int*, int, unsigned long*, unsigned long*), void (*func2)(int*, int, unsigned long*, unsigned long*), const char* nome_func1, const char* nome_func2) {
+void executar_teste(int tamanho, void (*func1)(int*, int,  unsigned long*, unsigned long*), void (*func2)(int*, int, unsigned long*, unsigned long*), const char* nome_func1, const char* nome_func2) {
     ArgsIteratctive args, args2;
+    
     args.func = func1;
     args2.func = func2;
     args.n = tamanho;
     args2.n = tamanho;
     args.max = 0,args.min= ULONG_MAX;
+    args2.max = 0,args2.min= ULONG_MAX;
 
     unsigned long total_duracao_original = 0, total_duracao_modificado = 0;
     unsigned long total_diferenca_tempo_original = 0, total_diferenca_tempo_modificado = 0;
@@ -139,7 +169,7 @@ void executar_teste(int tamanho, void (*func1)(int*, int, unsigned long*, unsign
 
     printf("\n" NEGRITO "RESULTADO DE TESTE DOS ALGORITMOS " MAGENTA ITALIC "%s" RESET NEGRITO " E " MAGENTA ITALIC "%s" RESET NEGRITO " COM " GREEN "%d " RESET NEGRITO " ELEMENTOS\n", nome_func1, nome_func2, tamanho);
     printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n");
-    printf("| " CYAN ITALIC "ALGORITMO" RESET "  |" CYAN ITALIC "TAMANHO DO VETOR" RESET "  |  " CYAN ITALIC "MEDIA DO TEMPO" RESET "  |  " CYAN ITALIC "DIFERENCA ENTRE MIN E MAX" RESET "  | " CYAN ITALIC "MEDIA DE COMPARACOES" RESET " |  " CYAN ITALIC "MEDIA DE TROCAS" RESET "  |\n");
+    printf("| " CYAN ITALIC "ALGORITMO" RESET "  |" CYAN ITALIC "TAMANHO DO VETOR" RESET "  |  " CYAN ITALIC "MEDIA DO TEMPO" RESET "  |  " CYAN ITALIC "DIFERE MIN E MAX" RESET "  | " CYAN ITALIC "MEDIA DE COMPARACOES" RESET " |  " CYAN ITALIC "MEDIA DE TROCAS" RESET "  |\n");
     printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n");
     printf("| original   |     " GREEN NEGRITO "%d" RESET "        |       " GREEN NEGRITO "%lu" RESET "         |          " GREEN NEGRITO "%lu" RESET "         |        " GREEN NEGRITO "%lu" RESET "       |      " GREEN NEGRITO "%lu" RESET "      |\n",
            tamanho, total_duracao_original / 10, media_diferenca_tempo_original, total_comparacoes_original / 10, total_trocas_original / 10);

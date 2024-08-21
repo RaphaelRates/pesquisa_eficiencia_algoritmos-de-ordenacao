@@ -8,7 +8,7 @@
 
 //         (BubbleSort, MergeSort,InsertSort, insertionSort, QuickSort)
 
-//       Após isso, perguntar a algum modelo de LM (CHATGPT LLHAMA, COPILOT, BING)
+//       Após isso, perguntar a algum modelo de LLM (CHATGPT LLHAMA, COPILOT, BING)
 //     como tornar tal algoritmo mais eficiente, em seguinda testá-los e fazer uma 
 //     análise crítica sobre tais alterações e escolher uma variação para cada codigo
 //     JUSTIFICANDO A SUA ESCOLHA!!!
@@ -25,7 +25,7 @@
 int main() {
 
     boxLoadingAnimation(100);
-    executar_teste(10000, bubblesort, bubblesortM, "bubblesort", "bubblesortModificado");
+    executar_teste(10000, bubblesort, bubblesortM, "bubble", "buibble");
 
 
     return 0;
