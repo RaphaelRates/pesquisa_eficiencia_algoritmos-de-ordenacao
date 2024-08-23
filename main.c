@@ -24,7 +24,7 @@
 
 int main() {
 
-    boxLoadingAnimation(100);
+    boxLoadingAnimation(80);
     executar_teste(10000, bubblesort, bubblesortM, "bubble", "buibble");
 
 

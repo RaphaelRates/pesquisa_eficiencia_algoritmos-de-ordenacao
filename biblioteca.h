@@ -7,9 +7,11 @@ void imprimir_vetor(const int *vetor, int n);
 
 #include <windows.h>
 //================================== STRUCTURES ===================================
+typedef void (*FuncaoIterativa)(int*, int, unsigned long*, unsigned long*);
+typedef void (*FuncaoRecursiva)(int*, int,int, unsigned long*, unsigned long*);
 
 typedef struct {
-    void (*func)(int *, int, unsigned long *, unsigned long *);
+    FuncaoIterativa func;
     int n;
     unsigned long int duracao;
     unsigned long int comparacoes;
@@ -20,7 +22,7 @@ typedef struct {
 } ArgsIteratctive;
 
 typedef struct {
-    void (*func)(int *, int, int, unsigned long *, unsigned long *);
+    FuncaoRecursiva func;
     int n;
     unsigned long int duracao;
     unsigned long int comparacoes;

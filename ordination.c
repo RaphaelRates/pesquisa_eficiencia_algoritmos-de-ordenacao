@@ -155,25 +155,31 @@ void quickSort(int *vet, int inicio, int fim, int unsigned long *comparacoes, un
     }
 }
 
-
-//+++++++++++++++++++++++++++++++++++++++++ ALGORITMOS MODIFICADOS ++++++++++++++++++++++++++++++++++++++++++++
+//=============================================================================
 void bubblesortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas) {
-    int i, mudou, fim = n - 1;
-    *trocas = 0;*comparacoes = 0;
-    do {
-        mudou = 0;
-        int novo_fim = 0; 
-        for (i = 0; i < fim; i++) {
+    int i, mudou;
+    *trocas = 0;
+    *comparacoes = 0;
+    int sorted = 0;
+    while (!sorted) {
+        sorted = 1;
+        for (i = 0; i <= n - 2; i += 2) {
             (*comparacoes)++;
             if (vet[i] > vet[i + 1]) {
                 swap(&vet[i], &vet[i + 1]);
-                mudou = 1;
-                novo_fim = i; 
+                sorted = 0;
                 (*trocas)++;
             }
         }
-        fim = novo_fim;  
-    } while (mudou);
+        for (i = 1; i <= n - 2; i += 2) {
+            (*comparacoes)++;
+            if (vet[i] > vet[i + 1]) {
+                swap(&vet[i], &vet[i + 1]);
+                sorted = 0;
+                (*trocas)++;
+            }
+        }
+    }
 }
 
 

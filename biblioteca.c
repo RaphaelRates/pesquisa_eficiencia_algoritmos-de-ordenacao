@@ -6,34 +6,6 @@
 #include "ordination.h"
 #include "style.h"
 
-//================================== VERRIFICAR FUNÇÃO ==========================
-#include <stdio.h>
-#include <stdbool.h>
-
-typedef void (* iteractive)(int*, int,  unsigned long*, unsigned long*);
-typedef void (* recursive)(int*, int, int, unsigned long*, unsigned long*);
-
-void exemploFunc1(int *a, int b, unsigned long *c, unsigned long *d) {
-    // Função de exemplo que corresponde ao tipo func1
-}
-
-void exemploFunc2(float *a, double b, unsigned long *c) {
-    // Função de exemplo que corresponde ao tipo func2
-}
-
-bool is_func1_or_func2_type(void *func) {
-    iteractive casted_func1 = (iteractive)func;
-    if (casted_func1 != NULL) {
-        return true;
-    }
-    recursive casted_func2 = (recursive)func;
-    if (casted_func2 != NULL) {
-        return true;
-    }
-
-    return false;
-}
-
 //================================== VETORES ===================================
 void alocar_vetor(int **vetor, int n) {
     if (n > 0) {
@@ -81,7 +53,7 @@ DWORD WINAPI testar_algoritmo(LPVOID args) {
     argumentos->trocas = trocas;
     argumentos->duracao = duracao;
 
-    printf(NEGRITO RED "EXECUTANDO" RESET " | vetor %d | " CYAN "%lu" RESET " ms | " CYAN "%lu " RESET "comparacoes | " CYAN "%lu " RESET "trocas.\n", (argumentos->vetor), argumentos->duracao, argumentos->comparacoes, argumentos->trocas);
+    printf(NEGRITO RED "EXECUTANDO" RESET " | vetor %d |  "CYAN "%lu "RESET "ms | "RED"%d "RESET" - "GREEN"%d"RESET" = "MAGENTA"%d"RESET" | " CYAN "%lu " RESET "comparacoes | " CYAN "%lu " RESET "trocas.\n", (argumentos->vetor), argumentos->duracao, argumentos->max, argumentos->min,argumentos->max - argumentos->min,argumentos->comparacoes, argumentos->trocas);
     printf(YELLOW NEGRITO "==============================================================" RESET);
     // imprimir_vetor(vetor, argumentos->n);
     printf("\n");
@@ -90,7 +62,7 @@ DWORD WINAPI testar_algoritmo(LPVOID args) {
     return 0;
 }
 
-void executar_teste(int tamanho, void (*func1)(int*, int,  unsigned long*, unsigned long*), void (*func2)(int*, int, unsigned long*, unsigned long*), const char* nome_func1, const char* nome_func2) {
+void executar_teste(int tamanho, FuncaoIterativa func1, FuncaoIterativa func2, const char* nome_func1, const char* nome_func2) {
     ArgsIteratctive args, args2;
     
     args.func = func1;
@@ -133,7 +105,6 @@ void executar_teste(int tamanho, void (*func1)(int*, int,  unsigned long*, unsig
         total_diferenca_tempo_original += diferenca_duracao;
     }
 
-    unsigned long media_diferenca_tempo_original = total_diferenca_tempo_original / 10;
 
     printf(CYAN NEGRITO "\n\n-----------------------------------------------------------------------\n" RESET);
     printf(CYAN NEGRITO "                   TESTANDO FUNCAOO " MAGENTA "MODIFICADA \n" RESET);
@@ -142,10 +113,8 @@ void executar_teste(int tamanho, void (*func1)(int*, int,  unsigned long*, unsig
 
     for (int j = 0; j < 10; j++) {
         args2.vetor = j;
-        unsigned long duracoes[10];
-        unsigned long comparacoes_total = 0, trocas_total = 0;
-        unsigned long diferenca_duracao = 0;
-        unsigned long soma_duracao = 0;
+        unsigned long duracoes[10], comparacoes_total = 0, trocas_total = 0;
+        unsigned long diferenca_duracao = 0, soma_duracao = 0;
 
         for (int i = 0; i < 10; i++) {
             HANDLE thread2 = CreateThread(NULL, 0, testar_algoritmo, &args2, 0, NULL);
@@ -155,26 +124,25 @@ void executar_teste(int tamanho, void (*func1)(int*, int,  unsigned long*, unsig
             duracoes[i] = args2.duracao;
             comparacoes_total += args2.comparacoes;
             trocas_total += args2.trocas;
-             if (duracoes[i] < args.min) args.min = duracoes[i];
-            if (duracoes[i] > args.max) args.max = duracoes[i];
+            if (duracoes[i] < args2.min) args2.min = duracoes[i];
+            if (duracoes[i] > args2.max) args2.max = duracoes[i];
             soma_duracao += duracoes[i];
         }
-        diferenca_duracao = args.max - args.min;
+        diferenca_duracao = args2.max - args2.min;
         total_duracao_modificado += soma_duracao / 10;
         total_comparacoes_modificado += comparacoes_total / 10;
         total_trocas_modificado += trocas_total / 10;
         total_diferenca_tempo_modificado += diferenca_duracao;
     }
-    unsigned long media_diferenca_tempo_modificado = total_diferenca_tempo_modificado / 10;
 
     printf("\n" NEGRITO "RESULTADO DE TESTE DOS ALGORITMOS " MAGENTA ITALIC "%s" RESET NEGRITO " E " MAGENTA ITALIC "%s" RESET NEGRITO " COM " GREEN "%d " RESET NEGRITO " ELEMENTOS\n", nome_func1, nome_func2, tamanho);
     printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n");
     printf("| " CYAN ITALIC "ALGORITMO" RESET "  |" CYAN ITALIC "TAMANHO DO VETOR" RESET "  |  " CYAN ITALIC "MEDIA DO TEMPO" RESET "  |  " CYAN ITALIC "DIFERE MIN E MAX" RESET "  | " CYAN ITALIC "MEDIA DE COMPARACOES" RESET " |  " CYAN ITALIC "MEDIA DE TROCAS" RESET "  |\n");
     printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n");
     printf("| original   |     " GREEN NEGRITO "%d" RESET "        |       " GREEN NEGRITO "%lu" RESET "         |          " GREEN NEGRITO "%lu" RESET "         |        " GREEN NEGRITO "%lu" RESET "       |      " GREEN NEGRITO "%lu" RESET "      |\n",
-           tamanho, total_duracao_original / 10, media_diferenca_tempo_original, total_comparacoes_original / 10, total_trocas_original / 10);
+           tamanho, total_duracao_original / 10, args.max - args.min, total_comparacoes_original / 10, total_trocas_original / 10);
     printf("|" CYAN "----------------------------------------------------------------------------------------------------------------------------" RESET "|\n");
     printf("| modificada |     " GREEN NEGRITO "%d" RESET "        |       " GREEN NEGRITO "%lu" RESET "         |          " GREEN NEGRITO "%lu" RESET "         |        " GREEN NEGRITO "%lu" RESET "       |      " GREEN NEGRITO "%lu" RESET "      |\n",
-           tamanho, total_duracao_modificado / 10, media_diferenca_tempo_modificado, total_comparacoes_modificado / 10, total_trocas_modificado / 10);
+           tamanho, total_duracao_modificado / 10, args2.max - args2.min, total_comparacoes_modificado / 10, total_trocas_modificado / 10);
     printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n\n\n");
 }
