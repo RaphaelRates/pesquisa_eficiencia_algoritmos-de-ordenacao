@@ -65,7 +65,7 @@ void executar_teste(int tamanho, FuncaoIterativa func1, FuncaoIterativa func2, c
     unsigned long total_duracao_original = 0, total_duracao_modificado = 0;
     unsigned long duracao_min_original = ULONG_MAX, duracao_max_original = 0;
     unsigned long total_comparacoes_original = 0, total_comparacoes_modificado = 0;
-     unsigned long duracao_min_modificado = ULONG_MAX, duracao_max_modificado = 0;
+    unsigned long duracao_min_modificado = ULONG_MAX, duracao_max_modificado = 0;
     unsigned long total_trocas_original = 0, total_trocas_modificado = 0;
 
     for (int j = 0; j < 10; j++) {
