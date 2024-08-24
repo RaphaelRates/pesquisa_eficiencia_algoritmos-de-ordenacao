@@ -28,7 +28,7 @@ typedef struct{
 } ArgsRecursive;
 
 void alocar_vetor(int **vetor, int n);
-void percorrer_vetor(int *vetor,int n);
+void preencher_vetor(int *vetor, int n, int min, int max, int seed_offset);
 void imprimir_vetor(const int *vetor, int n);
 void testar_algoritmo(ArgsIteratctive* args, int * elements);
 void executar_teste(int tamanho, FuncaoIterativa func1, FuncaoIterativa func2, const char* nome_func1, const char* nome_func2);

@@ -155,7 +155,7 @@ void quickSort(int *vet, int inicio, int fim, int unsigned long *comparacoes, un
     }
 }
 
-//=============================================================================
+//====================================== BUBBLE SORT  E  INSERTION SORT MODIFICADOS =====================================
 void bubblesortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas) {
     int i, mudou;
     *trocas = 0;
@@ -181,5 +181,39 @@ void bubblesortM(int *vet, int n, unsigned long *comparacoes, unsigned long *tro
         }
     }
 }
+void insertionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas) {
+    int i, j, aux, pos;
+    *trocas = 0;
+    *comparacoes = 0;
+
+    for (i = 1; i < n; i++) {
+        aux = vet[i];
+        // Realiza busca binária para encontrar a posição correta de inserção
+        int low = 0, high = i;
+        while (low < high) {
+            int mid = (low + high) / 2;
+            (*comparacoes)++;
+            if (vet[mid] <= aux) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        pos = low;
+
+        // Move os elementos para a direita para abrir espaço para a inserção
+        for (j = i; j > pos; j--) {
+            vet[j] = vet[j - 1];
+            (*trocas)++;
+        }
+
+        // Insere o elemento na posição correta
+        vet[pos] = aux;
+        if (pos != i) {
+            (*trocas)++;
+        }
+    }
+}
+
 
 

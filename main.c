@@ -25,7 +25,16 @@
 int main() {
 
     boxLoadingAnimation(80);
-    executar_teste(4000, bubblesort, bubblesortM, "bubble", "buibble");
+    // executar_teste(10, bubblesort, bubblesortM, "bubble", "buibble");
+    // executar_teste(100, bubblesort, bubblesortM, "bubble", "buibble");
+    // executar_teste(1000, bubblesort, bubblesortM, "bubble", "buibble");
+    // executar_teste(10000, bubblesort, bubblesortM, "bubble", "buibble");
+
+    // executar_teste(10, bubblesort, bubblesortM, "bubble", "buibble");
+    // executar_teste(100, bubblesort, bubblesortM, "bubble", "buibble");
+    // executar_teste(1000, bubblesort, bubblesortM, "bubble", "buibble");
+    executar_teste(10000, insertionSort, insertionSortM, "insertion", "insertion modificaded");
+    
 
 
     return 0;

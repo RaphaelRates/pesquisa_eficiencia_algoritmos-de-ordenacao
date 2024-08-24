@@ -10,6 +10,6 @@ void quickSort(int *vet, int, int n,unsigned long *trocas, unsigned long *compar
 
 //++++++++++++++++++++++++++++++++++MODIFICADOS+++++++++++++++++++++++++++++++++
 void bubblesortM(int *vet, int n, unsigned long *trocas, unsigned long *comparacoes);
-void selectionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas);
+void insertionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas);
 
 #endif
