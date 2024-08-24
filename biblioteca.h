@@ -1,10 +1,5 @@
 #ifndef MEU_ARQUIVO_H
 #define MEU_ARQUIVO_H
-
-void alocar_vetor(int **vetor, int n);
-void percorrer_vetor(int *vetor,int n);
-void imprimir_vetor(const int *vetor, int n);
-
 #include <windows.h>
 //================================== STRUCTURES ===================================
 typedef void (*FuncaoIterativa)(int*, int, unsigned long*, unsigned long*);
@@ -21,7 +16,7 @@ typedef struct {
     int vetor;
 } ArgsIteratctive;
 
-typedef struct {
+typedef struct{
     FuncaoRecursiva func;
     int n;
     unsigned long int duracao;
@@ -31,5 +26,11 @@ typedef struct {
     int min;
     int vetor;
 } ArgsRecursive;
+
+void alocar_vetor(int **vetor, int n);
+void percorrer_vetor(int *vetor,int n);
+void imprimir_vetor(const int *vetor, int n);
+void testar_algoritmo(ArgsIteratctive* args, int * elements);
+void executar_teste(int tamanho, FuncaoIterativa func1, FuncaoIterativa func2, const char* nome_func1, const char* nome_func2);
 
 #endif

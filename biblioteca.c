@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "biblioteca.h"
 #include <limits.h>
+#include <string.h>
+#include "biblioteca.h"
 #include "ordination.h"
 #include "style.h"
 
@@ -34,115 +35,119 @@ void imprimir_vetor(const int *vetor, int n) {
     }
 }
 
-
-//=======================================================================================================================
-DWORD WINAPI testar_algoritmo(LPVOID args) {
-    ArgsIteratctive* argumentos = (ArgsIteratctive*)args;
-    int *vetor = NULL;
+void testar_algoritmo(ArgsIteratctive* args, int* elements) {
     clock_t inicio, fim;
-    alocar_vetor(&vetor, argumentos->n);
-    preencher_vetor(vetor, argumentos->n, 0, argumentos->n * 10, argumentos->vetor);
     unsigned long comparacoes = 0, trocas = 0;
 
     inicio = clock();
-    argumentos->func(vetor, argumentos->n, &comparacoes, &trocas);
+    args->func(elements, args->n, &comparacoes, &trocas);
     fim = clock();
     unsigned long duracao = (fim - inicio) * 1000 / CLOCKS_PER_SEC;
 
-    argumentos->comparacoes = comparacoes;
-    argumentos->trocas = trocas;
-    argumentos->duracao = duracao;
-
-    printf(NEGRITO RED "EXECUTANDO" RESET " | vetor %d |  "CYAN "%lu "RESET "ms | "RED"%d "RESET" - "GREEN"%d"RESET" = "MAGENTA"%d"RESET" | " CYAN "%lu " RESET "comparacoes | " CYAN "%lu " RESET "trocas.\n", (argumentos->vetor), argumentos->duracao, argumentos->max, argumentos->min,argumentos->max - argumentos->min,argumentos->comparacoes, argumentos->trocas);
+    args->comparacoes = comparacoes;
+    args->trocas = trocas;
+    args->duracao = duracao;
+    
+    printf("\n" NEGRITO RED "EXECUTANDO" RESET " | vetor %d |  " CYAN "%lu " RESET "ms | " RED "%d " RESET " - " GREEN "%d" RESET " = " MAGENTA "%d" RESET " | " CYAN "%lu " RESET "comparacoes | " CYAN "%lu " RESET "trocas.\n",
+           args->vetor, args->duracao, args->max, args->min, args->max - args->min, args->comparacoes, args->trocas);
     printf(YELLOW NEGRITO "==============================================================" RESET);
-    // imprimir_vetor(vetor, argumentos->n);
-    printf("\n");
-
-    free(vetor);
-    return 0;
 }
 
 void executar_teste(int tamanho, FuncaoIterativa func1, FuncaoIterativa func2, const char* nome_func1, const char* nome_func2) {
     ArgsIteratctive args, args2;
-    
     args.func = func1;
     args2.func = func2;
     args.n = tamanho;
     args2.n = tamanho;
-    args.max = 0,args.min= ULONG_MAX;
-    args2.max = 0,args2.min= ULONG_MAX;
+    args.min = ULONG_MAX; args.max = 0;
+    args2.min = ULONG_MAX;args2.max = 0;
 
     unsigned long total_duracao_original = 0, total_duracao_modificado = 0;
-    unsigned long total_diferenca_tempo_original = 0, total_diferenca_tempo_modificado = 0;
+    unsigned long duracao_min_original = ULONG_MAX, duracao_max_original = 0;
     unsigned long total_comparacoes_original = 0, total_comparacoes_modificado = 0;
+     unsigned long duracao_min_modificado = ULONG_MAX, duracao_max_modificado = 0;
     unsigned long total_trocas_original = 0, total_trocas_modificado = 0;
 
-    printf(CYAN NEGRITO "\n\n-----------------------------------------------------------------------\n" RESET);
-    printf(CYAN NEGRITO "                    TESTANDO FUNCAO ORIGINAL \n" RESET);
-    printf(CYAN NEGRITO "-----------------------------------------------------------------------\n" RESET);
-
     for (int j = 0; j < 10; j++) {
-        args.vetor = j; 
-        unsigned long duracoes[10],comparacoes_total = 0, trocas_total = 0,diferenca_duracao = 0;
-        unsigned long soma_duracao = 0;
+        int *elements = NULL, *elements_copia = NULL;
+        alocar_vetor(&elements, tamanho);
+        alocar_vetor(&elements_copia, tamanho);
+
+        preencher_vetor(elements, tamanho, 0, tamanho * 10, j);
+        memcpy(elements_copia, elements, tamanho * sizeof(int));
+        args.vetor = j + 1;
+        args2.vetor = j + 1;
+
+        printf(CYAN NEGRITO "\n\n-----------------------------------------------------------------------\n" RESET);
+        printf(CYAN NEGRITO "                    TESTANDO FUNCAO ORIGINAL \n" RESET);
+        printf(CYAN NEGRITO "-----------------------------------------------------------------------" RESET);
+
+        unsigned long comparacoes_total_original = 0, trocas_total_original = 0;
+        unsigned long soma_duracao_original = 0;
 
         for (int i = 0; i < 10; i++) {
-            HANDLE thread = CreateThread(NULL, 0, testar_algoritmo, &args, 0, NULL);
-            WaitForSingleObject(thread, INFINITE);
-            CloseHandle(thread);
+            testar_algoritmo(&args, elements_copia);
+            soma_duracao_original += args.duracao;
+            comparacoes_total_original += args.comparacoes;
+            trocas_total_original += args.trocas;
 
-            duracoes[i] = args.duracao;
-            comparacoes_total += args.comparacoes;
-            trocas_total += args.trocas;
-            if (duracoes[i] < args.min) args.min = duracoes[i];
-            if (duracoes[i] > args.max) args.max = duracoes[i];
-            soma_duracao += duracoes[i];
+            if (args.duracao < duracao_min_original) {
+                duracao_min_original = args.duracao;
+                args.min = duracao_min_original;
+            }
+            if (args.duracao > duracao_max_original) {
+                duracao_max_original = args.duracao;
+                args.max = duracao_max_original;
+            }
+
+            memcpy(elements_copia, elements, tamanho * sizeof(int));
         }
-        diferenca_duracao = args.max - args.min;
-        total_duracao_original += soma_duracao / 10;
-        total_comparacoes_original += comparacoes_total / 10;
-        total_trocas_original += trocas_total / 10;
-        total_diferenca_tempo_original += diferenca_duracao;
-    }
 
+        total_duracao_original += soma_duracao_original / 10;
+        total_comparacoes_original += comparacoes_total_original / 10;
+        total_trocas_original += trocas_total_original / 10;
 
-    printf(CYAN NEGRITO "\n\n-----------------------------------------------------------------------\n" RESET);
-    printf(CYAN NEGRITO "                   TESTANDO FUNCAOO " MAGENTA "MODIFICADA \n" RESET);
-    printf(CYAN NEGRITO "-----------------------------------------------------------------------\n" RESET);
+        printf(CYAN NEGRITO "\n\n-----------------------------------------------------------------------\n" RESET);
+        printf(CYAN NEGRITO "                   TESTANDO FUNCAO " MAGENTA "MODIFICADA \n" RESET);
+        printf(CYAN NEGRITO "-----------------------------------------------------------------------\n" RESET);
 
-
-    for (int j = 0; j < 10; j++) {
-        args2.vetor = j;
-        unsigned long duracoes[10], comparacoes_total = 0, trocas_total = 0;
-        unsigned long diferenca_duracao = 0, soma_duracao = 0;
+        unsigned long comparacoes_total_modificado = 0, trocas_total_modificado = 0;
+        unsigned long soma_duracao_modificado = 0;
 
         for (int i = 0; i < 10; i++) {
-            HANDLE thread2 = CreateThread(NULL, 0, testar_algoritmo, &args2, 0, NULL);
-            WaitForSingleObject(thread2, INFINITE);
-            CloseHandle(thread2);
+            testar_algoritmo(&args2, elements_copia);
+            soma_duracao_modificado += args2.duracao;
+            comparacoes_total_modificado += args2.comparacoes;
+            trocas_total_modificado += args2.trocas;
 
-            duracoes[i] = args2.duracao;
-            comparacoes_total += args2.comparacoes;
-            trocas_total += args2.trocas;
-            if (duracoes[i] < args2.min) args2.min = duracoes[i];
-            if (duracoes[i] > args2.max) args2.max = duracoes[i];
-            soma_duracao += duracoes[i];
+            if (args2.duracao < duracao_min_modificado) {
+                duracao_min_modificado = args2.duracao;
+                args2.min = duracao_min_modificado;
+            }
+            if (args2.duracao > duracao_max_modificado) {
+                duracao_max_modificado = args2.duracao;
+                args2.max = duracao_max_modificado;
+            }
+            memcpy(elements_copia, elements, tamanho * sizeof(int));
         }
-        diferenca_duracao = args2.max - args2.min;
-        total_duracao_modificado += soma_duracao / 10;
-        total_comparacoes_modificado += comparacoes_total / 10;
-        total_trocas_modificado += trocas_total / 10;
-        total_diferenca_tempo_modificado += diferenca_duracao;
+
+        total_duracao_modificado += soma_duracao_modificado / 10;
+        total_comparacoes_modificado += comparacoes_total_modificado / 10;
+        total_trocas_modificado += trocas_total_modificado / 10;
+
+        free(elements);
+        free(elements_copia);
     }
 
-    printf("\n" NEGRITO "RESULTADO DE TESTE DOS ALGORITMOS " MAGENTA ITALIC "%s" RESET NEGRITO " E " MAGENTA ITALIC "%s" RESET NEGRITO " COM " GREEN "%d " RESET NEGRITO " ELEMENTOS\n", nome_func1, nome_func2, tamanho);
+    // Relatório final
+    printf("\n\n\n" NEGRITO "RESULTADO DE TESTE DOS ALGORITMOS " MAGENTA ITALIC "%s" RESET NEGRITO " E " MAGENTA ITALIC "%s" RESET NEGRITO " COM " GREEN "%d " RESET NEGRITO " ELEMENTOS\n", nome_func1, nome_func2, tamanho);
     printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n");
-    printf("| " CYAN ITALIC "ALGORITMO" RESET "  |" CYAN ITALIC "TAMANHO DO VETOR" RESET "  |  " CYAN ITALIC "MEDIA DO TEMPO" RESET "  |  " CYAN ITALIC "DIFERE MIN E MAX" RESET "  | " CYAN ITALIC "MEDIA DE COMPARACOES" RESET " |  " CYAN ITALIC "MEDIA DE TROCAS" RESET "  |\n");
+    printf("| " CYAN ITALIC "ALGORITMO" RESET "  |" CYAN ITALIC "TAMANHO DO VETOR" RESET "  |  " CYAN ITALIC "MEDIA DO TEMPO" RESET "  |  " CYAN ITALIC "DIFERENÇA MIN E MAX" RESET "  | " CYAN ITALIC "MEDIA DE COMPARACOES" RESET " |  " CYAN ITALIC "MEDIA DE TROCAS" RESET "  |\n");
     printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n");
     printf("| original   |     " GREEN NEGRITO "%d" RESET "        |       " GREEN NEGRITO "%lu" RESET "         |          " GREEN NEGRITO "%lu" RESET "         |        " GREEN NEGRITO "%lu" RESET "       |      " GREEN NEGRITO "%lu" RESET "      |\n",
            tamanho, total_duracao_original / 10, args.max - args.min, total_comparacoes_original / 10, total_trocas_original / 10);
     printf("|" CYAN "----------------------------------------------------------------------------------------------------------------------------" RESET "|\n");
     printf("| modificada |     " GREEN NEGRITO "%d" RESET "        |       " GREEN NEGRITO "%lu" RESET "         |          " GREEN NEGRITO "%lu" RESET "         |        " GREEN NEGRITO "%lu" RESET "       |      " GREEN NEGRITO "%lu" RESET "      |\n",
            tamanho, total_duracao_modificado / 10, args2.max - args2.min, total_comparacoes_modificado / 10, total_trocas_modificado / 10);
-    printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n\n\n");
 }
+
