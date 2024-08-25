@@ -149,5 +149,6 @@ void executar_teste(int tamanho, FuncaoIterativa func1, FuncaoIterativa func2, c
     printf("|" CYAN "----------------------------------------------------------------------------------------------------------------------------" RESET "|\n");
     printf("| modificada |     " GREEN NEGRITO "%d" RESET "        |       " GREEN NEGRITO "%lu" RESET "         |          " GREEN NEGRITO "%lu" RESET "         |        " GREEN NEGRITO "%lu" RESET "       |      " GREEN NEGRITO "%lu" RESET "      |\n",
            tamanho, total_duracao_modificado / 10, args2.max - args2.min, total_comparacoes_modificado / 10, total_trocas_modificado / 10);
+    printf("|" CYAN "---------------------------------------------------------------------------------------------------------------------" RESET "|\n");
 }
 

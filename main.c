@@ -19,8 +19,8 @@
 //    podendo retornar um vetor de tamanho N (10,100,1.000,10.000)
 
 #include "biblioteca.c"
-#include "ordination.h"
 #include "ordination.c"
+#include "style.c"
 
 int main() {
 
@@ -30,9 +30,9 @@ int main() {
     // executar_teste(1000, bubblesort, bubblesortM, "bubble", "buibble");
     // executar_teste(10000, bubblesort, bubblesortM, "bubble", "buibble");
 
-    // executar_teste(10, bubblesort, bubblesortM, "bubble", "buibble");
-    // executar_teste(100, bubblesort, bubblesortM, "bubble", "buibble");
-    // executar_teste(1000, bubblesort, bubblesortM, "bubble", "buibble");
+    // executar_teste(10, insertionSort, insertionSortM, "insertion", "insertion modificaded");
+    // executar_teste(100, insertionSort, insertionSortM, "insertion", "insertion modificaded");
+    // executar_teste(1000, insertionSort, insertionSortM, "insertion", "insertion modificaded");
     executar_teste(10000, insertionSort, insertionSortM, "insertion", "insertion modificaded");
     
 

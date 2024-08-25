@@ -18,7 +18,7 @@ void bubblesort(int *vet, int n, unsigned long *comparacoes, unsigned long *troc
         for(i = 0; i < fim; i++){
             (*comparacoes)++;
             if(vet[i] > vet[i+1]){
-                swap(&vet[i], &vet[i+1]);
+                swap(&vet[i], &vet[i+1]); 
                 mudou = 1;
                 (*trocas)++;
             }
@@ -27,25 +27,6 @@ void bubblesort(int *vet, int n, unsigned long *comparacoes, unsigned long *troc
     }while(mudou);
 }
 
-//=======================================  SELECTION SORT =======================================  
-void selectionSort(int *vet, int n,unsigned long *comparacoes, unsigned long *trocas){
-    int i, j, menor;
-    *trocas = 0;
-    *comparacoes = 0;
-    for(i = 0; i < n-1; i++){
-        menor = i;
-        for(j = i+1; j < n; j++){
-            (*comparacoes)++;
-            if(vet[j] < vet[menor]){
-                menor = j;
-            }
-        }
-        if(i != menor){
-            swap(&vet[i], &vet[menor]);
-            (*trocas)++;
-        }
-    }
-}
 //=======================================  INSERTION SORT =======================================  
 void insertionSort(int *vet, int n, unsigned long *comparacoes, unsigned long *trocas){
     int i, j, aux;
@@ -185,10 +166,8 @@ void insertionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *
     int i, j, aux, pos;
     *trocas = 0;
     *comparacoes = 0;
-
-    for (i = 1; i < n; i++) {
+    for (i = 1; i < n; i++) { 
         aux = vet[i];
-        // Realiza busca binária para encontrar a posição correta de inserção
         int low = 0, high = i;
         while (low < high) {
             int mid = (low + high) / 2;
@@ -200,14 +179,10 @@ void insertionSortM(int *vet, int n, unsigned long *comparacoes, unsigned long *
             }
         }
         pos = low;
-
-        // Move os elementos para a direita para abrir espaço para a inserção
         for (j = i; j > pos; j--) {
             vet[j] = vet[j - 1];
             (*trocas)++;
         }
-
-        // Insere o elemento na posição correta
         vet[pos] = aux;
         if (pos != i) {
             (*trocas)++;
