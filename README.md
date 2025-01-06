@@ -1,6 +1,11 @@
-# Sorting Algorithm Test Suite
+## An empirical and mathematical analysis of sorting algorithms based
+compared between the original versions
 
-This project provides a comprehensive test suite to evaluate the performance of various sorting algorithms implemented in C. The following sorting algorithms are tested:
+# Efficiency Comparison between
+Classical sorting algorithms and
+its variations.
+
+This project provides a comprehensive test suite to evaluate the performance of various sorting algorithms implemented in C. The following sorting algorithms are tested, made by Raphael Sousa Rabelo Rates and completed on 08/25/2024:
 
 - **Selection Sort**
 - **Quick Sort**
