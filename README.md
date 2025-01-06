@@ -76,6 +76,8 @@ It is possible to choose only 2 of them for the test.
 
 Its worst-case complexity is \(O(n^2)\), as, in the worst scenario, it must compare and potentially swap each element \(n\) times, comparing \(L[n]\) with \(L[n+1]\). In the best case, it only compares the values without performing any swaps.  
 
+#### Insertion Sort
+
 Although the algorithm's logic appears straightforward, its efficiency is significantly lower when compared to other classic sorting algorithms.  
 
 Another algorithm used in this research is **InsertionSort**, a sorting algorithm that builds the final array by inserting one element at a time, traversing the elements of the vector until it finds the correct position for an element to be placed at a certain position in the array. Its complexity, like BubbleSort, is \(O(n²)\) because it needs to traverse all elements of the array n times to compare one element.
@@ -83,6 +85,8 @@ Another algorithm used in this research is **InsertionSort**, a sorting algorith
 ![bubble sort code in project](./.github/imgs/insertionSort.png)
 
 The InsertionSort is not an efficient algorithm compared to other sorting types like Merge or Quick, but it is quite useful for small inputs. Each algorithm underwent modifications using the chat tool, with the following variations being selected:
+
+#### Bubble Sort Modified
 
 ![bubble sort code in project](./.github/imgs/bubbleSortModified.png)
 
