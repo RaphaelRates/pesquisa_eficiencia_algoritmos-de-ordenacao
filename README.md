@@ -17,7 +17,7 @@ This project provides a comprehensive test suite to evaluate the performance of 
 
 - [Project Overview](#project-overview)
 - [Getting Started](#introduction)
-  - [Prerequisites](#prerequisites)
+  - [Prerequisites](#Trainment)
   - [Installation](#installation)
 - [Usage](#usage)
   - [Running the Tests](#running-the-tests)
@@ -56,19 +56,26 @@ It is possible to choose only 2 of them for the test.
 
 | Algorithm      | Code       | Description                                      |
 |----------------|------------|--------------------------------------------------|
-| BubbleSort     | Iterative  | Move largest elements to the end of the vector   |
-|                |            | in multiple passes.                              |
-| InsertionSort  | Iterative  | Insert the elements in their appropriate         |
-|                |            | positions in an already ordered list.           |
-| SelectionSort  | Iterative  | Repeatedly selects an element and places it in   |
-|                |            | the correct position in the list.               |
-| MergeSort      | Recursive  | Divide the list into two, sort each division,    |
-|                |            | and then combine in order.                      |
-| QuickSort      | Recursive  | Separates the list into smaller parts based on   |
-|                |            | a pivot and orders them recursively.            |
+| BubbleSort     | Iterative  | Move largest elements to the end of the vector in multiple passes.|
+| InsertionSort  | Iterative  | Insert the elements in their appropriate positions in an already ordered list.|
+| SelectionSort  | Iterative  | Repeatedly selects an element and places it in the correct position in the list.|
+| MergeSort      | Recursive  | Divide the list into two, sort each division, and then combine in order.|
+| QuickSort      | Recursive  | Separates the list into smaller parts based on a pivot and orders them recursively.|
 
+## Theoretical Foundation
 
-### Prerequisites
+### Training
+
+  During this phase, two sorting algorithms were selected to consult OpenAI's language model about potential efficiency improvements to the original code. After choosing the modified algorithms, a detailed analysis of the proposed modifications was conducted, including a justification for the choice. The selected algorithms were **Bubble Sort** and **Insertion Sort**.
+
+### Bubble Sort
+
+**Bubble Sort** is an algorithm that sorts by continuously swapping adjacent values in the array until each element is smaller than the next one, ensuring ascending order. Its worst-case complexity is \(O(n^2)\), as, in the worst scenario, it must compare and potentially swap each element \(n\) times, comparing \(L[n]\) with \(L[n+1]\). In the best case, it only compares the values without performing any swaps.  
+
+Although the algorithm's logic appears straightforward, its efficiency is significantly lower when compared to other classic sorting algorithms.  
+
+Another algorithm used in this research is **Insertion Sort**, a sorting method that builds the final sorted array one element at a time, iterating through the array to find the exact position for each element.
+
 
 To compile and run the test suite, you'll need:
 
