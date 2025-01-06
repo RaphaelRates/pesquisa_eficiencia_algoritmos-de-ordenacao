@@ -133,3 +133,49 @@ $$
 Therefore, since the equation \( E_q \) is less than or equal to a constant multiplied by \( n^2 \), the worst-case complexity of the modified algorithm is \( O(n^2) \), which is the same as the original BubbleSort.
 
 **Note:** In the equation, the comparison and swap pointers are disregarded to represent a scenario with pure sorting, without the counting of metrics.
+
+#### Insertion Sort Modified 
+
+![bubble sort code in project](./.github/imgs/insertionoSortmodified.png)
+
+The algorithm above was chosen for comparison for two reasons:
+- **Absence of variations**: Among all the results given by ChatGPT, almost all of them simply rewrote the same algorithm with only a few modifications that were not very relevant when tested in empirical analyses.
+- **Binary Search**: The modification to use binary search instead of iterating through the entire array, optimizing both time and the number of comparisons between elements.
+- **Mathematical Analysis**: Knowing that InsertionSort has a time complexity of \( O(n^2) \), we perform an analysis of the modified algorithm in the worst case, as follows:
+
+### Mathematical Analysis of the Modified Algorithm
+
+Let:
+- **C1** = value change
+- **C2** = condition
+- **C3** = swap()
+- **C4** = variable initialization or declaration
+- **n** = number of elements in the array
+
+The equation for the modified algorithm is as follows:
+
+\[
+E_q = 4C1 + n \left(3C4 + C2 + n \times \left(\frac{C2 + C4}{n^2}\right) + C4 + n(C4) + C4 \right)
+\]
+
+\[
+= 4C1 + n \times \left(5C4 + C2 + \log(n) + nC4 \right)
+\]
+
+\[
+= n^2 C4 + n \log(n) + n C2 + n5C4 + 4C1
+\]
+
+\[
+= n^2 \times \left( C4 + \frac{\log(n)}{n} + \frac{C2}{n} + \frac{5C4}{n} + \frac{4C1}{n^2} \right)
+\]
+
+Where **C1**, **C2**, **C3**, and **C4** are constants and are disregarded in Big O notation. The dominant factor in the equation is \( n^2 \). Considering \( \beta = \left( C4 + \frac{\log(n)}{n} + \frac{C2}{n} + \frac{5C4}{n} + \frac{4C1}{n^2} \right) \) and a constant \( \alpha = 3 \), we can conclude:
+
+\[
+E_q = n^2 \times \beta + C1 \Rightarrow n^2 \times \beta + C1 \leq 3n^2
+\]
+
+Thus, since the equation \( E_q \) is less than or equal to a constant multiplied by \( n^2 \), the worst-case complexity of the modified algorithm is \( O(n^2) \), which is the same as the original **BubbleSort** algorithm. This holds true even though the complexity of the comparisons is \( O(\log(n)) \) in comparison to the original algorithm, which is \( O(n^2) \).
+
+**Note:** In the equation, the pointers for comparisons and swaps are disregarded to represent a scenario with pure sorting and without counting metrics.
