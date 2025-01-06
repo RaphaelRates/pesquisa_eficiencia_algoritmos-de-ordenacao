@@ -54,19 +54,19 @@ It is possible to choose only 2 of them for the test.
 
   # Exemplo de Tabela no Markdown
 
-| Algorithm           | code | description         |
-|----------------|-------|----------------|
-| BubbleSort           | iterative    | Move largest elements to the end
-of the vector in multiple passes     |
-| InsertionSort           | iterative    | Insert the elements and their appropriate
-positions in an already ordered list |
-| SelectionSort           | iterative    | Repeatedly selects element and the
-place it in the correct position in the list       |
-| MergeSort           | recursive    | Divide the list into two and sort each
-division and then combine in order       |
-| QuickSort           | recursive    | Separates the list into smaller parts
-based on a pivot and orders by
-recursion       |
+| Algorithm      | Code       | Description                                      |
+|----------------|------------|--------------------------------------------------|
+| BubbleSort     | Iterative  | Move largest elements to the end of the vector   |
+|                |            | in multiple passes.                              |
+| InsertionSort  | Iterative  | Insert the elements in their appropriate         |
+|                |            | positions in an already ordered list.           |
+| SelectionSort  | Iterative  | Repeatedly selects an element and places it in   |
+|                |            | the correct position in the list.               |
+| MergeSort      | Recursive  | Divide the list into two, sort each division,    |
+|                |            | and then combine in order.                      |
+| QuickSort      | Recursive  | Separates the list into smaller parts based on   |
+|                |            | a pivot and orders them recursively.            |
+
 
 ### Prerequisites
 
