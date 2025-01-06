@@ -52,7 +52,7 @@ original material
   The following classical algorithms presented for testing were total of 5,
 It is possible to choose only 2 of them for the test.
 
-  # Exemplo de Tabela no Markdown
+  # Algorithms
 
 | Algorithm      | Code       | Description                                      |
 |----------------|------------|--------------------------------------------------|
